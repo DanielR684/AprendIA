@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>AprendIA</title>
+
+    <!-- =========================
+         1. CSS: DISEÑO DE LA WEB
+         ========================= -->
+    <style>
+        /* Colores y letra general de la página */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #151D32; /* Fondo azul muy oscuro */
+            color: #eeeeff;            /* Letras claras */
+        }
+
+        /* Parte superior de la página */
+     header {
+    background-color: #18233b;
+    text-align: center;
+    padding: 12px;
+    border-bottom: 3px solid #00d9ff;
+}
+.boton-cabecera {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: auto;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: Arial;
+}
+
+/* Efecto al pasar el cursor */
+.boton-cabecera:hover .logo {
+    background-color: #a078ff;
+    box-shadow: 0 0 12px #9a70ff;
+}
+.nombre-cabecera {
+    color: #00e5ff;
+    font-size: 26px;
+    font-weight: bold;
+}
+.boton-cabecera:hover .nombre-cabecera {
+    color: #ffcf5c;
+}
+.cabecera-principal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+}
+
+.logo {
+    background-color: #7b4dff;
+    color: #00e5ff;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    font-size: 35px;
+}
+
+.cabecera-principal h1 {
+    color: #00e5ff;
+    font-size: 32px;
+    margin: 0;
+}
+
+.subtitulo {
+    color: #d2dcf0;
+    font-size: 13px;
+    margin: 6px 0 0;
+}
+        /* Menú con los botones de cada apartado */
+        nav {
+            text-align: center;
+            background-color: #0b1020;
+            padding: 12px;
+            border-bottom: 1px solid #354365;
+        }
+
+        nav button {
+            background-color: #202d49;
+            color: #ffffff;
+            border: 1px solid #00bfe8;
+            border-radius: 6px;
+            padding: 10px 13px;
+            margin: 4px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        /* El botón cambia al pasar el ratón */
+        nav button:hover {
+            background-color: #00cce8;
+            color: #101522;
+            box-shadow: 0 0 10px #00cce8;
+        }
+
+        /* Indica qué apartado está seleccionado */
+        nav button.seleccionado {
+            background-color: #7b4dff;
+            border-color: #b79cff;
+            color: white;
+        }
+
+        /* Ancho y posición del contenido */
+        main {
+            width: 90%;
+            max-width: 1000px;
+            margin: 25px auto;
+        }
+
+        /* Los apartados están ocultos al principio */
+        .apartado {
+            display: none;
+            background-color: #18233b;
+            border: 1px solid #354365;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 20px;
+        }
+
+        /* Solo se ve el apartado que tenga la clase activo */
+        .activo {
+            display: block;
+        }
+
+        /* Títulos */
+        h2 {
+            color: #00e5ff;
+            border-bottom: 2px solid #7b4dff;
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            color: #ffcf5c;
+        }
+
+        p, li {
+            line-height: 1.6;
+        }
+
+        /* Tarjetas para presentar las herramientas */
+        .tarjetas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .tarjeta {
+            background-color: #222f4d;
+            border: 1px solid #50658c;
+            border-radius: 7px;
+            padding: 15px;
+            flex: 1 1 220px;
+            transition: 0.2s;
+        }
+
+        /* Las tarjetas resaltan al pasar el cursor */
+        .tarjeta:hover {
+            background-color: #304267;
+            border-color: #00e5ff;
+            box-shadow: 0 0 12px #087f9c;
+            transform: translateY(-4px);
+        }
+
+        /* Botones dentro de los apartados */
+        .boton {
+            background-color: #7b4dff;
+            color: white;
+            border: 1px solid #ae91ff;
+            border-radius: 6px;
+            padding: 10px 14px;
+            margin: 5px 3px 5px 0;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .boton:hover {
+            background-color: #a078ff;
+            box-shadow: 0 0 10px #9a70ff;
+            transform: scale(1.04);
+        }
+
+        .boton:disabled {
+            background-color: #555b6b;
+            border-color: #777;
+            box-shadow: none;
+            transform: none;
+            cursor: not-allowed;
+        }
+
+        /* Enlaces a las páginas de las herramientas */
+        a {
+            color: #ffcf5c;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #ff78c8;
+            text-decoration: underline;
+            text-shadow: 0 0 7px #ff78c8;
+        }
+
+        /* Ejemplos de instrucciones para copiar o leer */
+        .ejemplo {
+            background-color: #101827;
+            border-left: 4px solid #00e5ff;
+            padding: 12px;
+            margin: 12px 0;
+            color: #e2eaff;
+        }
+
+        /* Pasos del tutorial */
+        .barra-fondo {
+            background-color: #354365;
+            height: 12px;
+            border-radius: 10px;
+            margin: 12px 0;
+        }
+
+        .barra-progreso {
+            background-color: #00d9a6;
+            width: 25%;
+            height: 12px;
+            border-radius: 10px;
+        }
+
+        /* Buscador */
+        input {
+            background-color: #101827;
+            color: white;
+            border: 1px solid #00bfe8;
+            border-radius: 5px;
+            padding: 10px;
+            width: 85%;
+            max-width: 400px;
+        }
+
+        input:focus {
+            outline: 2px solid #7b4dff;
+        }
+
+        /* Respuestas del test */
+        .respuesta {
+            display: block;
+            width: 100%;
+            max-width: 550px;
+            text-align: left;
+            background-color: #222f4d;
+            color: white;
+            border: 1px solid #50658c;
+            padding: 11px;
+            margin: 8px 0;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .respuesta:hover {
+            background-color: #354d78;
+            border-color: #00e5ff;
+        }
+
+        .respuesta:disabled {
+            cursor: default;
+        }
+
+        /* Colores para señalar la respuesta correcta o incorrecta */
+        .correcta {
+            border: 2px solid #00e5a0;
+            background-color: #174b43;
+        }
+
+        .incorrecta {
+            border: 2px solid #ff5c83;
+            background-color: #54273b;
+        }
+
+        /* Cajas desplegables */
+        details {
+            background-color: #222f4d;
+            border: 1px solid #50658c;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 9px 0;
+        }
+
+        summary {
+            color: #00e5ff;
+            cursor: pointer;
+        }
+
+        details:hover {
+            border-color: #00e5ff;
+        }
+
+        /* Parte inferior de la web */
+        footer {
+            text-align: center;
+            background-color: #0b1020;
+            color: #aebbd2;
+            border-top: 1px solid #354365;
+            padding: 18px;
+            margin-top: 30px;
+        }
+
+        /* Adaptación para pantallas pequeñas */
+        @media (max-width: 600px) {
+            main {
+                width: 94%;
+            }
+
+            .apartado {
+                padding: 15px;
+            }
+        }
+        .contenedor-video {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    aspect-ratio: 16 / 9;
+}
+
+.contenedor-video iframe {
+    width: 100%;
+    height: 100%;
+    border: 2px solid #00e5ff;
+    border-radius: 12px;
+}
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         2. HTML: CONTENIDO
+         ========================= -->
+
+   <header>
+
+    <button class="boton-cabecera"
+            onclick="mostrarApartado('inicio', null)">
+
+        <span class="logo">✦</span>
+        <span class="nombre-cabecera">IA FÁCIL</span>
+
+    </button>
+
+    <p class="subtitulo">
+        Aprende a utilizar la Inteligencia Artificial paso a paso
+    </p>
+
+</header>
+
+    <!-- Menú principal. Cada botón abre una sección -->
+    <nav>
+        <button onclick="mostrarApartado('aprender', this)">Aprende IA</button>
+        <button onclick="mostrarApartado('imagenes', this)">Crear imágenes</button>
+        <button onclick="mostrarApartado('estudiar', this)">Estudiar</button>
+        <button onclick="mostrarApartado('programar', this)">Programar</button>
+        <button onclick="mostrarApartado('herramientas', this)">Herramientas</button>
+        <button onclick="mostrarApartado('consejos', this)">Consejos</button>
+        <button onclick="mostrarApartado('test', this)">Test</button>
+    </nav>
+
+    <main>
+
+        <!-- APARTADO 1: INICIO -->
+        <section id="inicio" class="apartado activo">
+            <h2>Bienvenido a IA Fácil</h2>
+            <p>
+                La inteligencia artificial está presente en muchas actividades.
+                En esta página aprenderás qué es, cómo se utiliza y qué herramientas existen.
+            </p>
+            <p>
+                Elige un apartado en el menú para empezar.
+            </p>
+
+            <h3>¿Qué encontrarás en esta página?</h3>
+
+            <div class="tarjetas">
+                <div class="tarjeta">
+                    <h3>🎨 Crear imágenes</h3>
+                    <p>Descubre páginas que crean imágenes a partir de instrucciones.</p>
+                    <button class="boton" onclick="mostrarApartado('imagenes')">Entrar</button>
+                </div>
+
+                <div class="tarjeta">
+                    <h3>📚 Estudiar</h3>
+                    <p>Aprende a utilizar la IA para entender temas y preparar exámenes.</p>
+                    <button class="boton" onclick="mostrarApartado('estudiar')">Entrar</button>
+                </div>
+
+                <div class="tarjeta">
+                    <h3>💻 Programar</h3>
+                    <p>Conoce herramientas que ayudan a escribir y entender código.</p>
+                    <button class="boton" onclick="mostrarApartado('programar')">Entrar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- APARTADO 2: APRENDER IA -->
+        <section id="aprender" class="apartado">
+
+    <h2>Aprende a utilizar la IA</h2>
+
+    <p>
+        En este vídeo aprenderás cómo funciona la
+        Inteligencia Artificial y cómo empezar a utilizarla.
+    </p>
+
+    <h3>Vídeo explicativo</h3>
+
+    <div class="contenedor-video">
+    <iframe src="https://youtube.com" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ssHbtzGIfXk?si=TeMLWdkxYyllX7OR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+
+</section>
+
+        <!-- APARTADO 3: CREAR IMÁGENES -->
+        <section id="imagenes" class="apartado">
+            <h2>Crear imágenes con IA</h2>
+            <p>
+                Algunas herramientas pueden crear imágenes a partir de una descripción.
+                Escribes lo que quieres ver y la herramienta genera una imagen.
+            </p>
+
+            <div class="tarjetas">
+                <div class="tarjeta">
+                    <h3>ChatGPT</h3>
+                    <p>Permite generar imágenes y pedir cambios escribiendo instrucciones.</p>
+                    <a href="https://chatgpt.com/" target="_blank" rel="noopener">Visitar ChatGPT</a>
+                </div>
+
+                <div class="tarjeta">
+                    <h3>Midjourney</h3>
+                    <p>Se utiliza para crear imágenes artísticas.</p>
+                    <a href="https://www.midjourney.com/" target="_blank" rel="noopener">Visitar Midjourney</a>
+                </div>
+
+                <div class="tarjeta">
+                    <h3>Adobe Firefly</h3>
+                    <p>Permite crear y editar imágenes.</p>
+                    <a href="https://firefly.adobe.com/" target="_blank" rel="noopener">Visitar Firefly</a>
+                </div>
+            </div>
+
+            <h3>Ejemplo de instrucción</h3>
+            <div class="ejemplo">
+                Crea un paisaje de montañas con un lago, árboles y un cielo morado al atardecer.
+            </div>
+
+            <h3>¿Cómo se crea una imagen?</h3>
+            <details>
+                <summary>Paso 1: elegir una página</summary>
+                <p>Entra en una de las herramientas que aparecen arriba.</p>
+            </details>
+            <details>
+                <summary>Paso 2: escribir la descripción</summary>
+                <p>Explica qué quieres que aparezca, qué colores debe tener y qué estilo prefieres.</p>
+            </details>
+            <details>
+                <summary>Paso 3: generar la imagen</summary>
+                <p>Pulsa el botón de generar dentro de la herramienta.</p>
+            </details>
+            <details>
+                <summary>Paso 4: mejorar el resultado</summary>
+                <p>Puedes pedir cambios si la imagen no es exactamente como querías.</p>
+            </details>
+        </section>
+
+        <!-- APARTADO 4: ESTUDIAR -->
+        <section id="estudiar" class="apartado">
+            <h2>Utilizar la IA para estudiar</h2>
+            <p>La IA puede ayudarte a repasar, resumir y comprender temas de clase.</p>
+
+            <div class="tarjetas">
+                <div class="tarjeta">
+                    <h3>NotebookLM</h3>
+                    <p>Ayuda a estudiar a partir de documentos que tú añadas.</p>
+                    <a href="https://notebooklm.google.com/" target="_blank" rel="noopener">Visitar NotebookLM</a>
+                </div>
+
+                <div class="tarjeta">
+                    <h3>ChatGPT</h3>
+                    <p>Puede explicar temas, crear esquemas y preparar preguntas.</p>
+                    <a href="https://chatgpt.com/" target="_blank" rel="noopener">Visitar ChatGPT</a>
+                </div>
+
+                <div class="tarjeta">
+                    <h3>Perplexity</h3>
+                    <p>Sirve para buscar información y consultar fuentes.</p>
+                    <a href="https://www.perplexity.ai/" target="_blank" rel="noopener">Visitar Perplexity</a>
+                </div>
+            </div>
+
+            <h3>Ejemplo para entender un tema</h3>
+            <div class="ejemplo">
+                Explícame la fotosíntesis con palabras sencillas y pon tres ejemplos.
+            </div>
+
+            <h3>Ejemplo para preparar un examen</h3>
+            <div class="ejemplo">
+                Hazme cinco preguntas tipo test sobre la Edad Media. Espera a que responda antes de decirme las soluciones.
+            </div>
+        </section>
+
+        <!-- APARTADO 5: PROGRAMAR -->
+        <section id="programar" class="apartado">
+            <h2>La IA para programar</h2>
+            <p>
+                Algunas herramientas ayudan a escribir código, encontrar errores
+                y aprender cómo funcionan los lenguajes de programación.
+            </p>
+
+            <div class="tarjetas">
+                <div class="tarjeta">
+                    <h3>GitHub Copilot</h3>
+                    <p>Ayuda a escribir y revisar código.</p>
+                    <a href="https://github.com/features/copilot" target="_blank" rel="noopener">Visitar Copilot</a>
+                </div>
+
+                <div class="tarjeta">
+                    <h3>Cursor</h3>
+                    <p>Es un editor de código que incluye funciones de IA.</p>
+                    <a href="https://www.cursor.com/" target="_blank" rel="noopener">Visitar Cursor</a>
+                </div>
+
+                <div class="tarjeta">
+                    <h3>Replit</h3>
+                    <p>Permite escribir y ejecutar programas desde el navegador.</p>
+                    <a href="https://replit.com/" target="_blank" rel="noopener">Visitar Replit</a>
+                </div>
+            </div>
+
+            <h3>Ejemplo de pregunta para una IA</h3>
+            <div class="ejemplo">
+                Crea una página web sencilla con HTML y CSS y explícame para qué sirve cada parte.
+            </div>
+            <p><strong>Consejo:</strong> no copies el código sin leerlo. Pide que te expliquen cómo funciona.</p>
+        </section>
+
+        <!-- APARTADO 6: HERRAMIENTAS Y BUSCADOR -->
+        <section id="herramientas" class="apartado">
+            <h2>Directorio de herramientas</h2>
+            
+
+            <div class="tarjetas" id="listaHerramientas">
+                <div class="tarjeta herramienta">
+                    <h3>ChatGPT</h3>
+                    <p>Para conversar, escribir y resolver dudas.</p>
+                    <a href="https://chatgpt.com/" target="_blank" rel="noopener">Abrir página</a>
+                </div>
+
+                <div class="tarjeta herramienta">
+                    <h3>Gemini</h3>
+                    <p>Asistente de inteligencia artificial de Google.</p>
+                    <a href="https://gemini.google.com/" target="_blank" rel="noopener">Abrir página</a>
+                </div>
+
+                <div class="tarjeta herramienta">
+                    <h3>Midjourney</h3>
+                    <p>Para generar imágenes artísticas.</p>
+                    <a href="https://www.midjourney.com/" target="_blank" rel="noopener">Abrir página</a>
+                </div>
+
+                <div class="tarjeta herramienta">
+                    <h3>NotebookLM</h3>
+                    <p>Para estudiar con documentos propios.</p>
+                    <a href="https://notebooklm.google.com/" target="_blank" rel="noopener">Abrir página</a>
+                </div>
+
+                <div class="tarjeta herramienta">
+                    <h3>GitHub Copilot</h3>
+                    <p>Para recibir ayuda al programar.</p>
+                    <a href="https://github.com/features/copilot" target="_blank" rel="noopener">Abrir página</a>
+                </div>
+                
+                <div class="tarjeta herramienta">
+                    <h3>Claude</h3>
+                    <p>Preguntas y escritura.</p>
+                    <a href="https://claude.ai/" target="_blank" rel="noopener">Abrir página</a>
+                </div>
+
+            <p id="sinResultados" style="display: none;">No se ha encontrado ninguna herramienta.</p>
+        </section>
+
+        <!-- APARTADO 7: CONSEJOS PARA ESCRIBIR PROMPTS -->
+        <section id="consejos" class="apartado">
+            <h2>Consejos para hablar con una IA</h2>
+            <p>
+                Las instrucciones que escribimos a una IA se suelen llamar
+                <strong>prompts</strong>. Una instrucción clara ayuda a conseguir
+                una respuesta más útil.
+            </p>
+
+            <h3>Cuatro consejos</h3>
+            <ul>
+                <li>Explica qué necesitas.</li>
+                <li>Indica para quién es la explicación.</li>
+                <li>Pide el formato que prefieras: lista, tabla o resumen.</li>
+                <li>Si la respuesta no te sirve, añade más detalles.</li>
+            </ul>
+
+            <h3>Ejemplo sencillo</h3>
+            <div class="ejemplo">
+                <strong>Instrucción poco clara:</strong><br>
+                Háblame de los planetas.
+            </div>
+
+            <div class="ejemplo">
+                <strong>Instrucción más completa:</strong><br>
+                Explícame los ocho planetas del sistema solar para un alumno de secundaria.
+                Haz una tabla con sus características.
+            </div>
+        </section>
+
+        <!-- APARTADO 8: TEST -->
+        <section id="test" class="apartado">
+            <h2>Comprueba lo que has aprendido</h2>
+            <p>Responde a estas preguntas para comprobar lo que sabes sobre la IA.</p>
+
+            <p id="numeroPregunta">Pregunta 1</p>
+            <h3 id="pregunta">¿Qué es un prompt?</h3>
+            <div id="respuestas"></div>
+            <p id="mensajeTest"></p>
+            <p id="puntos"></p>
+            <button class="boton" id="siguientePregunta" onclick="pasarPregunta()" disabled>Siguiente pregunta</button>
+        </section>
+
+    </main>
+
+    <footer>
+        AprendIA - Proyecto de TICO sobre diseño de paginas web con HTML y CSS.<br>
+        Recuerda comprobar la información importante que te dé una IA.
+    </footer>
+
+    <!-- =========================
+         3. JAVASCRIPT: FUNCIONES
+         ========================= -->
+    <script>
+
+        // FUNCIÓN 1: CAMBIAR DE APARTADO
+        // Oculta todas las secciones y enseña solamente la que hemos elegido.
+        function mostrarApartado(id, botonPulsado) {
+            let secciones = document.querySelectorAll(".apartado");
+
+            secciones.forEach(function(seccion) {
+                seccion.classList.remove("activo");
+            });
+
+            document.getElementById(id).classList.add("activo");
+
+            // Cambia el color del botón seleccionado del menú.
+            let botones = document.querySelectorAll("nav button");
+
+            botones.forEach(function(boton) {
+                boton.classList.remove("seleccionado");
+            });
+
+            if (botonPulsado) {
+                botonPulsado.classList.add("seleccionado");
+            } else {
+                // Si entramos desde una tarjeta, también marcamos su botón del menú.
+                botones.forEach(function(boton) {
+                    if (boton.getAttribute("onclick").includes("'" + id + "'")) {
+                        boton.classList.add("seleccionado");
+                    }
+                });
+            }
+        }
+
+        // FUNCIÓN 2: TUTORIAL PASO A PASO
+        // Guardamos el texto de cada paso en tres listas.
+
+        // FUNCIÓN 3: BUSCAR HERRAMIENTAS
+        // Compara lo escrito con el texto de cada tarjeta.
+        function buscarHerramientas() {
+            let texto = document.getElementById("buscador").value.toLowerCase();
+            let tarjetas = document.querySelectorAll(".herramienta");
+            let encontrados = 0;
+
+            tarjetas.forEach(function(tarjeta) {
+                let nombre = tarjeta.innerText.toLowerCase();
+
+                if (nombre.includes(texto)) {
+                    tarjeta.style.display = "block";
+                    encontrados = encontrados + 1;
+                } else {
+                    tarjeta.style.display = "none";
+                }
+            });
+
+            if (encontrados === 0) {
+                document.getElementById("sinResultados").style.display = "block";
+            } else {
+                document.getElementById("sinResultados").style.display = "none";
+            }
+        }
+
+        // Limpia el buscador y vuelve a enseñar todas las tarjetas.
+        function limpiarBusqueda() {
+            document.getElementById("buscador").value = "";
+
+            let tarjetas = document.querySelectorAll(".herramienta");
+
+            tarjetas.forEach(function(tarjeta) {
+                tarjeta.style.display = "block";
+            });
+
+            document.getElementById("sinResultados").style.display = "none";
+        }
+
+
+        // FUNCIÓN 4: TEST DE PREGUNTAS
+        // Cada pregunta tiene tres respuestas y una respuesta correcta.
+        let preguntas = [
+            {
+                texto: "¿Qué es un prompt?",
+                opciones: [
+                    "Un tipo de ordenador",
+                    "Una instrucción que damos a una IA",
+                    "Un programa para dibujar"
+                ],
+                correcta: 1,
+                explicacion: "Un prompt es la instrucción o pregunta que escribimos a la IA."
+            },
+            {
+                texto: "¿Qué herramienta puede ayudar a estudiar con documentos propios?",
+                opciones: [
+                    "NotebookLM",
+                    "Midjourney",
+                    "Cursor"
+                ],
+                correcta: 0,
+                explicacion: "NotebookLM permite trabajar con documentos que aportamos."
+            },
+            {
+                texto: "¿Qué debemos hacer con una respuesta importante de la IA?",
+                opciones: [
+                    "Creerla siempre",
+                    "No leerla",
+                    "Comprobar que sea correcta"
+                ],
+                correcta: 2,
+                explicacion: "La IA puede equivocarse; por eso debemos comprobar la información."
+            }
+        ];
+
+        let preguntaActual = 0;
+        let aciertos = 0;
+        let yaRespondida = false;
+        let testAcabado = false;
+
+        // Enseña la pregunta y crea sus botones de respuesta.
+        function cargarPregunta() {
+            let pregunta = preguntas[preguntaActual];
+
+            document.getElementById("numeroPregunta").textContent =
+                "Pregunta " + (preguntaActual + 1) + " de " + preguntas.length;
+
+            document.getElementById("pregunta").textContent = pregunta.texto;
+            document.getElementById("mensajeTest").textContent = "";
+            document.getElementById("puntos").textContent = "Aciertos: " + aciertos;
+
+            let zona = document.getElementById("respuestas");
+            zona.innerHTML = "";
+
+            pregunta.opciones.forEach(function(opcion, numero) {
+                let boton = document.createElement("button");
+                boton.textContent = opcion;
+                boton.className = "respuesta";
+
+                // Al pulsar el botón se comprueba la respuesta.
+                boton.onclick = function() {
+                    comprobarRespuesta(numero);
+                };
+
+                zona.appendChild(boton);
+            });
+
+            document.getElementById("siguientePregunta").disabled = true;
+            document.getElementById("siguientePregunta").textContent = "Siguiente pregunta";
+            yaRespondida = false;
+            testAcabado = false;
+        }
+
+        // Comprueba si la opción elegida es correcta.
+        function comprobarRespuesta(numeroElegido) {
+            if (yaRespondida) {
+                return;
+            }
+
+            yaRespondida = true;
+
+            let pregunta = preguntas[preguntaActual];
+            let botones = document.querySelectorAll(".respuesta");
+
+            if (numeroElegido === pregunta.correcta) {
+                aciertos = aciertos + 1;
+                document.getElementById("mensajeTest").textContent =
+                    "¡Correcto! " + pregunta.explicacion;
+            } else {
+                document.getElementById("mensajeTest").textContent =
+                    "No es correcto. " + pregunta.explicacion;
+            }
+
+            // Desactiva las opciones y señala la correcta.
+            botones.forEach(function(boton, numero) {
+                boton.disabled = true;
+
+                if (numero === pregunta.correcta) {
+                    boton.classList.add("correcta");
+                } else if (numero === numeroElegido) {
+                    boton.classList.add("incorrecta");
+                }
+            });
+
+            document.getElementById("puntos").textContent = "Aciertos: " + aciertos;
+            document.getElementById("siguientePregunta").disabled = false;
+
+            if (preguntaActual === preguntas.length - 1) {
+                document.getElementById("siguientePregunta").textContent = "Ver resultado";
+            }
+        }
+
+        // Pasa a la siguiente pregunta o enseña el resultado final.
+        function pasarPregunta() {
+            if (testAcabado) {
+                preguntaActual = 0;
+                aciertos = 0;
+                cargarPregunta();
+                return;
+            }
+
+            if (preguntaActual < preguntas.length - 1) {
+                preguntaActual = preguntaActual + 1;
+                cargarPregunta();
+            } else {
+                document.getElementById("pregunta").textContent =
+                    "Has conseguido " + aciertos + " de " + preguntas.length + " aciertos.";
+
+                document.getElementById("respuestas").innerHTML = "";
+
+                document.getElementById("mensajeTest").textContent =
+                    "¡Has terminado el test! Puedes repetirlo para mejorar tu resultado.";
+
+                document.getElementById("puntos").textContent = "";
+                document.getElementById("siguientePregunta").textContent = "Repetir test";
+                testAcabado = true;
+            }
+        }
+
+        // Enseña la primera pregunta al abrir la página.
+        cargarPregunta();
+
+    </script>
+</body>
+</html>
